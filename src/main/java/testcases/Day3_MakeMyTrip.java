@@ -52,11 +52,12 @@ public class Day3_MakeMyTrip {
 		
 		//Entering the city name as Goa
 		Actions action = new Actions(driver);
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//div[contains(@class,'hsw_inputBox selectHtlCity')]")));
-		action.moveToElement(driver.findElementByXPath("//div[contains(@class,'hsw_inputBox selectHtlCity')]")).click().build().perform();
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@data-cy='hotelCityLabel']")));
+		//action.moveToElement(
+		driver.findElementByXPath("//div[contains(@class,'hsw_inputBox selectHtlCity')]").click();//.build().perform();
 		
-		Thread.sleep(2000);
-		wait.until(ExpectedConditions.elementToBeClickable((driver.findElementByXPath("//input[contains(@placeholder,'Enter city')]"))));
+		
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[contains(@placeholder,'Enter city')]")));
 		action.moveToElement(driver.findElementByXPath("//input[contains(@placeholder,'Enter city')]")).click().build().perform();
 		
 		//driver.findElementByXPath("//div[@role='combobox']//input").click();
@@ -94,18 +95,18 @@ public class Day3_MakeMyTrip {
 		driver.findElementByXPath("//div[@class='mmBackdrop wholeBlack']").click();
 		
 		//Selecting city as Baga
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//input[@id='mmLocality_checkbox_35']/following-sibling::label")));
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='mmLocality_checkbox_35']/following-sibling::label")));
 		driver.findElementByXPath("//input[@id='mmLocality_checkbox_35']/following-sibling::label").click();
 		System.out.println("Selected Baga");
 		
 		//Selecting 5 star category
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//ul[@class='filterList']//label[text()='5 Star']")));
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='filterList']//label[text()='5 Star']")));
 		driver.findElementByXPath("//ul[@class='filterList']//label[text()='5 Star']").click();
 		System.out.println("Selected 5 Star category");
 		
 		//clicking the first hotel displayed
-		Thread.sleep(3000);
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//div[@class='imgCont']")));
+		
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='imgCont']")));
 		List<WebElement> listOfHotels = driver.findElementsByXPath("//div[@class='imgCont']");
 		listOfHotels.get(0).click();
 		System.out.println("First Hotel in the search result clicked");
@@ -117,7 +118,8 @@ public class Day3_MakeMyTrip {
 		System.out.println("Switched to new Window");
 		System.out.println("Hotel Name: "+driver.findElementById("detpg_hotel_name").getText());
 		driver.findElementByXPath("//span[text()='MORE OPTIONS']").click();
-		Thread.sleep(3000);
+		
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[text()='SELECT'])[1]")));
 		driver.findElementByXPath("(//span[text()='SELECT'])[1]").click();
 		System.out.println("3 months plan selected");
 		driver.findElementByXPath("//span[@class='close']").click();
@@ -125,7 +127,8 @@ public class Day3_MakeMyTrip {
 		System.out.println("Book now button clicked");
 		
 		//printing the amount
-		Thread.sleep(2000);
+		
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("revpg_total_payable_amt")));
 		System.out.println("Total Payable Amount: "+ driver.findElementById("revpg_total_payable_amt").getText());
 		driver.quit();
 	}
