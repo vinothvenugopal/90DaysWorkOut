@@ -2,12 +2,12 @@
 <testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="51028" started-at="2020-04-17T12:34:08Z" finished-at="2020-04-17T12:34:59Z">
+  <suite name="Default suite" duration-ms="53342" started-at="2020-04-17T15:20:00Z" finished-at="2020-04-17T15:20:54Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="51028" started-at="2020-04-17T12:34:08Z" finished-at="2020-04-17T12:34:59Z">
+    <test name="Default test" duration-ms="53342" started-at="2020-04-17T15:20:00Z" finished-at="2020-04-17T15:20:54Z">
       <class name="testcases.Day3_MakeMyTrip">
-        <test-method status="PASS" signature="hotelBoooking()[pri:0, instance:testcases.Day3_MakeMyTrip@204f30ec]" name="hotelBoooking" duration-ms="50960" started-at="2020-04-17T12:34:08Z" finished-at="2020-04-17T12:34:59Z">
+        <test-method status="PASS" signature="hotelBoooking()[pri:0, instance:testcases.Day3_MakeMyTrip@204f30ec]" name="hotelBoooking" duration-ms="53287" started-at="2020-04-17T15:20:00Z" finished-at="2020-04-17T15:20:54Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- hotelBoooking -->
