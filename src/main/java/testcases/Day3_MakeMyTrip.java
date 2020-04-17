@@ -31,11 +31,11 @@ public class Day3_MakeMyTrip {
 		//Keeping the first leter of the month in upperCase and rest letters in lower case (so as to match with the 
 		//datepicker in the application
 		monthName = monthName.substring(0, 1)+monthName.substring(1, monthName.length()).toLowerCase();
-		
-		
+
+
 		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
 		ChromeDriver driver = new ChromeDriver();
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+		WebDriverWait wait = new WebDriverWait(driver, 10);
 		//ChromeDriver driver = new ChromeDriver();
 		System.out.println("Browser Launched");
 		driver.manage().window().maximize();
@@ -44,44 +44,44 @@ public class Day3_MakeMyTrip {
 		//1) Go to https://www.makemytrip.com/
 		driver.get("https://www.makemytrip.com/");
 		System.out.println("URL Loaded");
-		
+
 		// Clicking Hotels
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//a[@class='makeFlex hrtlCenter column']//span[text()='Hotels']")));
 		driver.findElementByXPath("//a[@class='makeFlex hrtlCenter column']//span[text()='Hotels']").click();
 		System.out.println("Hotels Clicked");
-		
+
 		//Entering the city name as Goa
 		Actions action = new Actions(driver);
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@data-cy='hotelCityLabel']")));
 		//action.moveToElement(
 		driver.findElementByXPath("//div[contains(@class,'hsw_inputBox selectHtlCity')]").click();//.build().perform();
-		
-		
+
+
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[contains(@placeholder,'Enter city')]")));
 		action.moveToElement(driver.findElementByXPath("//input[contains(@placeholder,'Enter city')]")).click().build().perform();
-		
+
 		//driver.findElementByXPath("//div[@role='combobox']//input").click();
 		driver.findElementByXPath("//input[contains(@placeholder,'Enter city')]").sendKeys("Goa",Keys.TAB);
 		System.out.println("City Name entered as Goa");
-		
+
 		//Clicking the 15th day of next month. this will always select the next month 15th day
 		driver.findElementByXPath("//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='15']").click();
 		System.out.println("From date selected");
-		
+
 		//to get the selected date so as to calcuate 5 days from the selected From Date
 		int intFromDate = Integer.parseInt(driver.findElementByXPath("//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='15']").getText());
-		
+
 		//adding 5 days to the From Date
 		int toDateint = intFromDate+5;
-		
+
 		//converting the date to a string
 		String toDateString = Integer.toString(toDateint);
-		
+
 		//Selecting the to Date - which is 5 days next to the From Date
 		driver.findElementByXPath("//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='"+toDateString+"']").click();
 		System.out.println("To Date selected");
 		driver.findElementById("guest").click();
-		
+
 		//hardcoded xpath just for this requirement as the requirement says to select 2 adults and 1 child
 		driver.findElementByXPath("(//li[text()='2'])[1]").click();
 		driver.findElementByXPath("(//li[text()='1'])[2]").click();
@@ -90,22 +90,22 @@ public class Day3_MakeMyTrip {
 		System.out.println("Applu Buttion Clicked");
 		driver.findElementByXPath("//button[text()='Search']").click();
 		System.out.println("Search Button clicked");
-		
+
 		//clicking the black screen that appears after search button click
 		driver.findElementByXPath("//div[@class='mmBackdrop wholeBlack']").click();
-		
+
 		//Selecting city as Baga
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='mmLocality_checkbox_35']/following-sibling::label")));
 		driver.findElementByXPath("//input[@id='mmLocality_checkbox_35']/following-sibling::label").click();
 		System.out.println("Selected Baga");
-		
+
 		//Selecting 5 star category
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='filterList']//label[text()='5 Star']")));
 		driver.findElementByXPath("//ul[@class='filterList']//label[text()='5 Star']").click();
 		System.out.println("Selected 5 Star category");
-		
+
 		//clicking the first hotel displayed
-		
+
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='imgCont']")));
 		List<WebElement> listOfHotels = driver.findElementsByXPath("//div[@class='imgCont']");
 		listOfHotels.get(0).click();
@@ -118,18 +118,36 @@ public class Day3_MakeMyTrip {
 		System.out.println("Switched to new Window");
 		System.out.println("Hotel Name: "+driver.findElementById("detpg_hotel_name").getText());
 		driver.findElementByXPath("//span[text()='MORE OPTIONS']").click();
-		
+
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[text()='SELECT'])[1]")));
 		driver.findElementByXPath("(//span[text()='SELECT'])[1]").click();
 		System.out.println("3 months plan selected");
 		driver.findElementByXPath("//span[@class='close']").click();
-		driver.findElementByXPath("//a[text()='BOOK THIS NOW']").click();
-		System.out.println("Book now button clicked");
+		Thread.sleep(3000);
 		
-		//printing the amount
 		
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("revpg_total_payable_amt")));
-		System.out.println("Total Payable Amount: "+ driver.findElementById("revpg_total_payable_amt").getText());
+		if(driver.findElements(By.xpath("//a[text()='BOOK THIS NOW']")).size()>0)//.isDisplayed())
+		{
+			driver.findElementByXPath("//a[text()='BOOK THIS NOW']").click();
+			System.out.println("Book now button clicked");
+		}
+		else
+		{
+			Thread.sleep(2000);
+			//boolean isNotificationDisplayed = driver.findElementByXPath("appendTop20 appendBottom20").isDisplayed();
+			if (driver.findElementsByXPath("//div[@class='appendTop20 appendBottom20']").size()>0)//isNotificationDisplayed==true)
+			{
+				System.out.println("Cannot print the Total Payable amount as the message "+driver.findElementByXPath("(//div[@class='_SoldOut soldOut']//p)[1]").getText()+" is displayed");
+			}
+
+			else
+			{
+				//printing the amount
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("revpg_total_payable_amt")));
+				System.out.println("Total Payable Amount: "+ driver.findElementById("revpg_total_payable_amt").getText());
+			}
+		}
 		driver.quit();
 	}
 }
