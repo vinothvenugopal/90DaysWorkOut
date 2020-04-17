@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 public class Day1_Myntra {
-	@Test
+	//@Test
 	public void womenCoatAndJackets() throws InterruptedException
 	{
 		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
@@ -83,25 +83,27 @@ public class Day1_Myntra {
 		action.moveToElement(driver.findElementByXPath("//label[text()='Better Discount']")).click().build().perform();
 		String price = driver.findElementByXPath("(//span[@class='product-discountedPrice'])[1]").getText();
 		
-		
+		Thread.sleep(2000);
 		  List<WebElement> allDiscountedPrice = driver.findElementsByXPath(
-		  "//ul[@class='results-base']//div[@class='product-price']");
+		  "//span[@class='product-discountedPrice']");
+		  String[] discountedPrice = new String[allDiscountedPrice.size()];
+		  for (int i = 0; i < discountedPrice.length; i++) {
+			discountedPrice[i] = allDiscountedPrice.get(i).getText();
+		}
+		  
 		  System.out.println("Price of the first item displayed is: "
 		  +allDiscountedPrice.get(0).getText());
 		 
 		Thread.sleep(2000);
 		action.moveToElement(driver.findElementByXPath("(//picture[@class='img-responsive'])[1]")).build().perform();
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("(//span[text()='wishlist now'])[1]")));
-		driver.findElementByXPath("(//span[text()='wishlist now'])[1]").click();
-		if(driver.getTitle().equals("Login"))
-		{
-			System.out.println("Wishlist clicked successfully. Closing Browser");
-		}
-		else
-		{
-			System.out.println("Wishlist click not successful");
-		}
+		/*
+		 * driver.findElementByXPath("(//span[text()='wishlist now'])[1]").click();
+		 * if(driver.getTitle().equals("Login")) {
+		 * System.out.println("Wishlist clicked successfully. Closing Browser"); } else
+		 * { System.out.println("Wishlist click not successful"); }
+		 */
 		
-		driver.close();
+		//driver.close();
 	}
 }
