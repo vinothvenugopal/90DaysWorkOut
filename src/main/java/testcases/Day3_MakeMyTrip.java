@@ -35,7 +35,7 @@ public class Day3_MakeMyTrip {
 
 		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
 		ChromeDriver driver = new ChromeDriver();
-		WebDriverWait wait = new WebDriverWait(driver, 10);
+		WebDriverWait wait = new WebDriverWait(driver, 30);
 		//ChromeDriver driver = new ChromeDriver();
 		System.out.println("Browser Launched");
 		driver.manage().window().maximize();
@@ -65,11 +65,18 @@ public class Day3_MakeMyTrip {
 		System.out.println("City Name entered as Goa");
 
 		//Clicking the 15th day of next month. this will always select the next month 15th day
-		driver.findElementByXPath("//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='15']").click();
+		if(driver.findElementsByXPath("//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='25']").size()>1)
+		{
+			driver.findElementByXPath("(//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='25'])[2]").click();
+		}
+		else
+		{
+			driver.findElementByXPath("//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='25']").click();
+		}
 		System.out.println("From date selected");
 
 		//to get the selected date so as to calcuate 5 days from the selected From Date
-		int intFromDate = Integer.parseInt(driver.findElementByXPath("//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='15']").getText());
+		int intFromDate = Integer.parseInt(driver.findElementByXPath("//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='25']").getText());
 
 		//adding 5 days to the From Date
 		int toDateint = intFromDate+5;
@@ -78,7 +85,14 @@ public class Day3_MakeMyTrip {
 		String toDateString = Integer.toString(toDateint);
 
 		//Selecting the to Date - which is 5 days next to the From Date
-		driver.findElementByXPath("//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='"+toDateString+"']").click();
+		if(driver.findElementsByXPath("//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='"+toDateString+"']").size()>1)
+		{
+			driver.findElementByXPath("(//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='"+toDateString+"'])[2]").click();
+		}
+		else
+		{
+			driver.findElementByXPath("//div[text()='"+monthName+"']/ancestor::div[@class='DayPicker-Month']//div[text()='"+toDateString+"']").click();
+		}
 		System.out.println("To Date selected");
 		driver.findElementById("guest").click();
 
@@ -92,6 +106,7 @@ public class Day3_MakeMyTrip {
 		System.out.println("Search Button clicked");
 
 		//clicking the black screen that appears after search button click
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='mmBackdrop wholeBlack']")));
 		driver.findElementByXPath("//div[@class='mmBackdrop wholeBlack']").click();
 
 		//Selecting city as Baga
@@ -101,6 +116,7 @@ public class Day3_MakeMyTrip {
 
 		//Selecting 5 star category
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='filterList']//label[text()='5 Star']")));
+		//action.moveToElement(driver.findElementByXPath("//ul[@class='filterList']//label[text()='5 Star']")).click().build().perform();
 		driver.findElementByXPath("//ul[@class='filterList']//label[text()='5 Star']").click();
 		System.out.println("Selected 5 Star category");
 
@@ -108,7 +124,7 @@ public class Day3_MakeMyTrip {
 
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='imgCont']")));
 		List<WebElement> listOfHotels = driver.findElementsByXPath("//div[@class='imgCont']");
-		listOfHotels.get(0).click();
+		listOfHotels.get(2).click();
 		System.out.println("First Hotel in the search result clicked");
 
 		//handling windows
@@ -124,8 +140,8 @@ public class Day3_MakeMyTrip {
 		System.out.println("3 months plan selected");
 		driver.findElementByXPath("//span[@class='close']").click();
 		Thread.sleep(3000);
-		
-		
+
+
 		if(driver.findElements(By.xpath("//a[text()='BOOK THIS NOW']")).size()>0)//.isDisplayed())
 		{
 			driver.findElementByXPath("//a[text()='BOOK THIS NOW']").click();
